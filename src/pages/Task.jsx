@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-
 import { Typography , Box , TextField , FormControl, IconButton , Checkbox} from '@mui/material'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -34,7 +33,11 @@ export default function Task() {
       minute: '2-digit', // Two-digit minute (e.g., "14")
       hour12: true,      // Use 12-hour clock (e.g., "am" or "pm")
     };
-    const newTask = { id : Date.now() , text , completed : false, time : new Date(Date.now()).toLocaleString('en-US' , options) };
+    const newTask = { 
+      id : Date.now() , 
+      text , completed : false, 
+      time : new Date(Date.now()).toLocaleString('en-US' , options) 
+    };
     setTasks([...tasks , newTask]);
   }
 
@@ -94,7 +97,7 @@ export default function Task() {
                 <IconButton edge="end" >
                   <DeleteIcon color='error' onClick={() => deleteTask(item.id)}/>
                 </IconButton>
-            </>
+              </>
             }
           >
             <ListItemAvatar>
