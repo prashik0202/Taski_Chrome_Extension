@@ -2,10 +2,23 @@
 
 .App {
   height: 500px;
-  width: 450px;
+  width: 700px;
   margin: 0;
 }
 
 .completed{
   text-decoration: line-through;
+}
+
+
+.low-priority {
+  background-color: #81d4fa;
+}
+
+.medium-priority {
+  background-color: #a5d6a7;
+}
+
+.high-priority {
+  background-color: #ef9a9a;
 }

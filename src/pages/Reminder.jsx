@@ -1,8 +1,19 @@
 import React from 'react'
 
-import { Box ,Typography, TextField , FormControl} from '@mui/material'
+import { Box ,Typography, TextField , FormControl, Button} from '@mui/material'
 
 export default function Reminder() {
+
+     /*global chrome*/
+  const click = () => {
+    chrome.notifications.create('test', {
+      type: 'basic',
+      iconUrl: 'logo192.png',
+      title: 'GlenRish',
+      message: 'glen love rishma',
+      priority: 2
+    });
+  }
 
   return (
     <Box>
@@ -18,29 +29,9 @@ export default function Reminder() {
           mt={2}
           mx={2}
         >
-          <FormControl fullWidth>
-            <TextField
-              type="text"
-              placeholder="Enter Title"
-              onKeyDown={(e) => {
-                if(e.key === 'enter'){
-                  
-                }
-              }}
-            />
-          </FormControl>
-
-          <FormControl fullWidth>
-            <TextField
-              type="time"
-              placeholder="Enter Title"
-              onKeyDown={(e) => {
-                if(e.key === 'enter'){
-                  
-                }
-              }}
-            />
-          </FormControl>
+          <Button onClick={click}>
+            Clickme
+          </Button>
         </Box>
     </Box>
   )

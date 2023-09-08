@@ -9,9 +9,21 @@
     {"name" : "Sumit Sawant"},
     {"name" : "Ayush Nalawade"}
   ],
-
+  "permissions" : [ 
+    "alarms",
+    "notifications", 
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type" : "module"
+  },
   "action":{
       "default_popup": "index.html",
-      "default_title": "Taski"
+      "default_title": "Taski",
+      "default_icon" : {
+        "16" : "logo192.png",
+        "128" : "logo512.png"
+      }
   }
 }

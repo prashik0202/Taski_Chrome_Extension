@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { Typography , Box , TextField , FormControl, IconButton , Checkbox} from '@mui/material'
+import { Typography , Box , TextField , FormControl, IconButton , Grid,FormLabel,FormGroup , FormControlLabel , Checkbox , Button, ListItemIcon , Select , MenuItem , InputLabel} from '@mui/material'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -12,6 +12,7 @@ import WorkIcon from '@mui/icons-material/Work';
 export default function Task() {
 
   const [ tasks , setTasks ] = useState([]);
+  const [task, setTask] = useState({ name: '', description: '', priority: 'low' });
 
   useEffect(() => {
     // Load tasks from local storage
@@ -24,7 +25,12 @@ export default function Task() {
     localStorage.setItem("tasks" , JSON.stringify(tasks) );
   }, [tasks])
 
-  const addTask = (text) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setTask({ ...task, [name]: value });
+  };
+
+  const addTask = () => {
     const options = {
       weekday: 'short',  // Short weekday name (e.g., "SUN")
       month: 'short',    // Short month name (e.g., "Aug")
@@ -34,11 +40,13 @@ export default function Task() {
       hour12: true,      // Use 12-hour clock (e.g., "am" or "pm")
     };
     const newTask = { 
-      id : Date.now() , 
-      text , completed : false, 
+      id : Date.now() ,
+      task,
+      completed : false, 
       time : new Date(Date.now()).toLocaleString('en-US' , options) 
     };
     setTasks([...tasks , newTask]);
+    setTask({ name: '', description: '', priority: 'low' });
   }
 
   const completeTask = (taskId) => {
@@ -53,65 +61,127 @@ export default function Task() {
     setTasks(updatedTasks);
   };
 
+
+  // Function to sort data by priority
+  const sortDataByPriority = (data) => {
+    return data.sort((a, b) => {
+      if (a.task.priority === "high" && b.task.priority !== "high") return -1;
+      if (b.task.priority === "high" && a.task.priority !== "high") return 1;
+      if (a.task.priority === "medium" && b.task.priority === "low") return -1;
+      if (b.task.priority === "medium" && a.task.priority === "low") return 1;
+      return 0;
+    });
+  };
+
+  // Sort the data by priority
+  const storedTasks = sortDataByPriority(tasks);
+
+
   return (
-    <Box>
-      <Box
-          px={1}
-          marginTop={10}
-          textAlign='center'
-      >
-          <Typography variant='h5'>Manage Your Tasks</Typography>
-      </Box>
+    <Box mt={10}>
+      
+      <Grid container>
+        <Grid item sm={6}>
+        <Box
+          mx={2}
+        >
+          <FormControl fullWidth>
+            <TextField
+              size='small'
+              type='text'
+              label="name" 
+              name='name'
+              placeholder='enter your task'
+              margin='normal'
+              value={task.name}
+              onChange={handleInputChange}
+            />
+          
+            <TextField
+              size='small'
+              type='text'
+              name='description'
+              label="description" 
+              value={task.description}
+              onChange={handleInputChange}
+              placeholder='provide task description'
+              margin='normal'
+            />
+          {/* <br /> */}
+          <FormLabel component="legend" sx={{ mt : 1}}>Set Priority</FormLabel>
+          
+          <Select labelId="demo-simple-select-label" label="age" name="priority" value={task.priority} onChange={handleInputChange} size='small'  >
+            <MenuItem value="low">Low</MenuItem>
+            <MenuItem value="medium">Medium</MenuItem>
+            <MenuItem value="high">High</MenuItem>
+          </Select>
+          <br />
+          
+            <Button 
+              variant='contained'
+              size='small'
+              onClick={addTask}
+              sx={{ borderRadius : 0}}
+            >Add</Button>
+          </FormControl>
 
-      <Box
-        mt={2}
-        mx={2}
-      >
-        <FormControl fullWidth>
-          <TextField
-            type='text'
-            label="task" 
-            placeholder='enter your task'
-            onKeyDown={(e) => {
-              if(e.key === 'Enter') {
-                addTask(e.target.value);
-                e.target.value = '';
-              }
-            }}
-          />
-        </FormControl>
-      </Box>
+          <Box mt={4} textAlign='center'>
+            <Typography variant='body2' sx={{ color : 'grey'}}>To get detail analysis of your daily tasks, Please click the below Button</Typography>
+            <FormControl fullWidth sx={{ mt : 1}}>
+              <Button variant='contained' size='small' color='success' sx={{ borderRadius : 0}}>Click Here</Button>
+            </FormControl>
+          </Box>
 
-      <Box
-        mt={1}
+      </Box>
+        </Grid>
+        <Grid item sm={6}>
+        <Box
         mx={1}
       >
         <List sx={{ width : '100%' , bgcolor: 'background.paper'}}>
 
-        { tasks.map((item) => (
+        { storedTasks.map((item) => (
+
           <ListItem
-            key={item}
+            
+            sx={{ borderRadius : 2 ,mt : 0.5}}
+            className={
+              item.task.priority === "low"
+                ? "low-priority"
+                : item.task.priority === "medium"
+                ? "medium-priority"
+                : "high-priority"
+            }
+            key={item.id}
             secondaryAction={
               <>
-                <Checkbox edge="end" color='success' checked={item.completed} onChange={() => completeTask(item.id)} disabled={tasks.disabled}/>
-                <IconButton edge="end" >
-                  <DeleteIcon color='error' onClick={() => deleteTask(item.id)}/>
+                <IconButton edge="end" onClick={() => deleteTask(item.id)} >
+                  <DeleteIcon sx={{ color : 'black'}} />
                 </IconButton>
               </>
             }
           >
-            <ListItemAvatar>
-                <WorkIcon  color='primary'/> 
-            </ListItemAvatar>
+            <ListItemIcon>
+                {/* <WorkIcon  color='primary'/>  */}
+                <Checkbox edge="end" color='secondary' checked={item.completed} onChange={() => completeTask(item.id)} disabled={tasks.disabled}/>
+            </ListItemIcon>
             <ListItemText
               className={item.completed ? 'completed' : ''}
-              primary={item.text}
-              secondary={item.time}
+              primary={item.task.name}
+              secondary={item.task.description}
             />
           </ListItem>
+            
+          
         ))}
         </List>
+
       </Box>
+        </Grid>
+      </Grid>
+      
+
+      
     </Box>
   )
 }
