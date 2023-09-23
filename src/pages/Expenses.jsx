@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from 'react'
 
-import { Typography , Box , TextField , FormControl, IconButton ,Button, Checkbox} from '@mui/material'
+import { Typography , Box , TextField , FormControl, IconButton ,Button, Grid} from '@mui/material'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -41,63 +41,71 @@ export default function Expenses() {
 
   return (
       <Box>
-        <Box
-          mt={6}
-          mx={2}
-        >
-        {/* <FormControl fullWidth> */}
-          <TextField
-            type='text'
-            label="Name" 
-            margin='normal'
-            placeholder='Add Transaction'
-            value={expense}
-            onChange={(e) => setExpense(e.target.value)} 
-          />
-          <TextField
-            type='number'
-            label="Amount" 
-            margin='normal'
-            placeholder='Add Amount'
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)} 
-          />
-        {/* </FormControl> */}
-        <FormControl fullWidth>
-          <Button
-            variant='contained'
-            size='large'
-            onClick={addExpense}
-            sx={{ borderRadius : 0}}
+        <Grid container>
+          <Grid item sm={6}>
+            <Box
+              mt={6}
+              mx={2}
+            >
+          <FormControl fullWidth>
+            <TextField
+              type='text'
+              label="Name" 
+              margin='normal'
+              size='small'
+              placeholder='Add Transaction'
+              value={expense}
+              onChange={(e) => setExpense(e.target.value)} 
+            />
+          </FormControl>
+
+          <FormControl fullWidth>
+            <TextField
+              type='number'
+              label="Amount" 
+              // margin='normal'
+              size='small'
+              placeholder='Add Amount'
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)} 
+            />
+          </FormControl>
+          <FormControl fullWidth>
+            <Button
+              variant='contained'
+              size='small'
+              onClick={addExpense}
+              sx={{ borderRadius : 0 , mt : 1}}
+            >
+              Add
+            </Button>
+          </FormControl>
+        </Box>
+            <Box
+              mt={1}
+              p={1}
+              mx={2}
+              sx={{ backgroundColor : '#e0e0e0' , color : 'green'}}
+              textAlign='center'
+            >
+              <Typography variant='body1'>Total Expense: &#x20b9;{totalExpense.toFixed(2)}</Typography>
+            </Box>
+          </Grid
           >
-            Add
-          </Button>
-        </FormControl>
-      </Box>
-
-      <Box
-        mt={1}
-        p={1}
-        mx={2}
-        sx={{ backgroundColor : '#e0e0e0' , color : 'green'}}
-        textAlign='center'
-      >
-        <Typography variant='h6'>Total Expense: &#x20b9;{totalExpense.toFixed(2)}</Typography>
-      </Box>
-
-      <Box
-        mt={1}
+          <Grid item sm={6}>
+          <Box
+        mt={8}
         mx={2}
       >
-          <List sx={{ width : '100%' , bgcolor: 'background.paper'}}>
+        <List sx={{ width : '100%' , bgcolor: 'background.paper'}}>
 
           {transactions.map((transaction, index) => (
               <ListItem
                 key={index}
                 secondaryAction={
                   <>
-                    <IconButton edge="end" >
-                      <DeleteIcon color='error' onClick={() => deleteExpense(index)} />
+                    <IconButton edge="end" onClick={() => deleteExpense(index)}>
+                      <DeleteIcon color='error'  />
                     </IconButton>
                   </>
                 }
@@ -112,10 +120,10 @@ export default function Expenses() {
                 />
               </ListItem>
             ))}
-            </List>
-      </Box>
-
-
+              </List>
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
   );
 }

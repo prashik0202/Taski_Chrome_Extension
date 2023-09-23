@@ -6,6 +6,7 @@ import Task from './pages/Task';
 import Password from './pages/Password';
 import Reminder from './pages/Reminder';
 import Expenses from './pages/Expenses';
+import TaskAnalysis from './pages/TaskAnalysis';
 import { Routes , Route  } from 'react-router-dom';
 
 
@@ -19,7 +20,9 @@ function App() {
           <Route path='/task' element={<Task />}/>    
           <Route path='/reminder' element={<Reminder />}/>    
           <Route path='/expense' element={<Expenses />}/>    
-          <Route path='/password' element={<Password />}/>    
+          <Route path='/password' element={<Password />}/> 
+          <Route path='/task_analysis' element={<TaskAnalysis />}/> 
+
         </Routes>
       </Box>
     </div>

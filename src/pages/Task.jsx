@@ -7,6 +7,8 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import DeleteIcon from '@mui/icons-material/Delete'
 import WorkIcon from '@mui/icons-material/Work';
+import { Link } from 'react-router-dom';
+import { FixedSizeList } from "react-window";
 
 
 export default function Task() {
@@ -24,6 +26,16 @@ export default function Task() {
     // save tasks to localstorage whenever the task state changes:
     localStorage.setItem("tasks" , JSON.stringify(tasks) );
   }, [tasks])
+
+  // new tab button:
+  // function openNewTabWithData(data) {
+  //   const newTabUrl = chrome.extension.getURL(`newTab.html?data=${encodeURIComponent(data)}`);
+    
+  //   chrome.tabs.create({ url: newTabUrl });
+  // }
+  // function handleClick() {
+  //   openNewTabWithData(tasks);
+  // }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -128,7 +140,17 @@ export default function Task() {
           <Box mt={4} textAlign='center'>
             <Typography variant='body2' sx={{ color : 'grey'}}>To get detail analysis of your daily tasks, Please click the below Button</Typography>
             <FormControl fullWidth sx={{ mt : 1}}>
-              <Button variant='contained' size='small' color='success' sx={{ borderRadius : 0}}>Click Here</Button>
+              <Button 
+                variant='contained' 
+                size='small' 
+                color='success' 
+                sx={{ borderRadius : 0}}
+                // onClick={handleClick()}
+                component={Link}
+                to='/task_analysis'
+              >
+                Click Here
+              </Button>
             </FormControl>
           </Box>
 
@@ -136,8 +158,8 @@ export default function Task() {
         </Grid>
         <Grid item sm={6}>
         <Box
-        mx={1}
-      >
+          mx={1}
+        >
         <List sx={{ width : '100%' , bgcolor: 'background.paper'}}>
 
         { storedTasks.map((item) => (
@@ -175,7 +197,6 @@ export default function Task() {
           
         ))}
         </List>
-
       </Box>
         </Grid>
       </Grid>
