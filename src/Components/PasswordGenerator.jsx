@@ -46,7 +46,7 @@ function PasswordGenerator() {
         {/* <label>Password Length:</label> */}
         <FormControl fullWidth>
             <TextField
-                margin='normal'
+                margin='dense'
                 type="number"
                 min="6"
                 max="100"
@@ -57,12 +57,12 @@ function PasswordGenerator() {
             <Button onClick={handleGeneratePassword}  variant='contained' size='small' sx={{ mb : 1}}>Generate Password</Button>
         </FormControl>
       </div>
-      <Box mt={4}>
+      <Box mt={2}>
         <FormControl fullWidth>
             <OutlinedInput
-                margin='normal'
+                margin='dense'
                 variant="standard"
-                InputProps={{
+                inputprops={{
                     disableUnderline: true,
                 }}
                 size='small'

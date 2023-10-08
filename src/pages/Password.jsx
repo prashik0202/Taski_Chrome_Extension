@@ -151,7 +151,7 @@ function NewPass() {
             <TextField
                 type="text"
                 placeholder="Website"
-                margin='normal'
+                margin='dense'
                 size='small'
                 value={website}
                 onChange={(e) => setWebsite(e.target.value)}
@@ -172,6 +172,7 @@ function NewPass() {
                     </InputAdornment>
                 }
                 size='small'
+                margin='dense'
                 value={password}
                 // helperText={strenght ? strenght : "" }
                 onChange={(e) => setPassword(e.target.value)}

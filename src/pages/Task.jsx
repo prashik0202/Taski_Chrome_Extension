@@ -8,13 +8,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import DeleteIcon from '@mui/icons-material/Delete'
 import WorkIcon from '@mui/icons-material/Work';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import { FixedSizeList } from "react-window";
 
 
 export default function Task() {
 
   const [ tasks , setTasks ] = useState([]);
-  const [task, setTask] = useState({ name: '', description: '', priority: 'low' });
+  const [task, setTask] = useState({ name: '', description: '', date : moment().format('YYYY-MM-DD') , priority: 'low'});
 
   useEffect(() => {
     // Load tasks from local storage
@@ -58,7 +59,7 @@ export default function Task() {
       time : new Date(Date.now()).toLocaleString('en-US' , options) 
     };
     setTasks([...tasks , newTask]);
-    setTask({ name: '', description: '', priority: 'low' });
+    setTask({ name: '', description: '',date : moment().format('YYYY-MM-DD'), priority: 'low' });
   }
 
   const completeTask = (taskId) => {
@@ -90,7 +91,7 @@ export default function Task() {
 
 
   return (
-    <Box mt={10}>
+    <Box mt={7}>
       
       <Grid container>
         <Grid item sm={6}>
@@ -119,6 +120,20 @@ export default function Task() {
               placeholder='provide task description'
               margin='normal'
             />
+
+            <Typography variant='body2' sx={{ mb : 0.5 , mt : 1 , ml : 1 , color : 'gray'}}>Shedule this task </Typography>
+            <TextField
+              size='small'
+              type='date'
+              name='date'
+              // label="Date" 
+              value={task.date }
+              onChange={handleInputChange}
+              placeholder='Shedule on Selected Date'
+              // margin='normal'
+            />
+
+            
           {/* <br /> */}
           <FormLabel component="legend" sx={{ mt : 1}}>Set Priority</FormLabel>
           
@@ -162,9 +177,12 @@ export default function Task() {
         >
         <List sx={{ width : '100%' , bgcolor: 'background.paper'}}>
 
-        { storedTasks.map((item) => (
+        { storedTasks.map((item) => {
 
-          <ListItem
+          if(item.task.date === moment().format('YYYY-MM-DD')){
+
+            return(
+              <ListItem
             
             sx={{ borderRadius : 2 ,mt : 0.5}}
             className={
@@ -193,16 +211,14 @@ export default function Task() {
               secondary={item.task.description}
             />
           </ListItem>
-            
-          
-        ))}
+            );
+          }
+        })}
         </List>
       </Box>
         </Grid>
       </Grid>
-      
 
-      
     </Box>
   )
 }

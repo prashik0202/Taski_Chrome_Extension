@@ -40,7 +40,7 @@ export default function Expenses() {
   const totalExpense = transactions.reduce((total, transaction) => total + transaction.amount, 0);
 
   return (
-      <Box>
+      <Box mt={3}>
         <Grid container>
           <Grid item sm={6}>
             <Box
