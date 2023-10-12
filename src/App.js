@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Home />}/>    
           <Route path='/task' element={<Task />}/>    
-          <Route path='/reminder' element={<Reminder />}/>    
+          {/* <Route path='/reminder' element={<Reminder />}/>     */}
           <Route path='/expense' element={<Expenses />}/>    
           <Route path='/password' element={<Password />}/> 
           <Route path='/task_analysis' element={<TaskAnalysis />}/> 

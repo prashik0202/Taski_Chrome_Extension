@@ -12,7 +12,7 @@ export default function Home() {
         >
             <TaskAltIcon fontSize='large' color='primary'/>
             <Typography variant='h5' color='primary'>Empower Your Productivity with Taski</Typography><br />
-            <Typography variant='body1' >Your All-in-One Solution for Tasks, Expenses, Passwords, and Reminders!</Typography>
+            <Typography variant='body1' >Your All-in-One Solution for Tasks, Expenses, Passwords</Typography>
         </Box>
     </Container>
   )

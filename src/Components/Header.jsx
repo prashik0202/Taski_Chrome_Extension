@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 const navItems = [
     { "name" : 'Tasks' , "path" : '/task'},
-    {"name" : 'Reminder', "path" : "/reminder"}, 
+    // {"name" : 'Reminder', "path" : "/reminder"}, 
     {"name" : 'Expenses' , "path" : "/expense"} ,
     {"name": 'Passwords' ,"path" : "/password"}
 ];
