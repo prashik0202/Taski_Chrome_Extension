@@ -9,36 +9,44 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import DeleteIcon from '@mui/icons-material/Delete'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import CloseIcon from '@mui/icons-material/Close';
+
+import moment from 'moment';
 
 export default function Expenses() {
 
-
+  {/* ALL STATES VARIABLES*/}
   const [transactions, setTransactions] = useState([]);
   const [expense, setExpense] = useState('');
   const [amount, setAmount] = useState('');
   const [expenseType , setExpenseType ] = useState('');
-
+  const [category , setCategory ] = useState('');
   const [ totalCredit , setTotalCredit ] = useState(0);
   const [ totalDebit , setTotalDebit ] = useState(0);
-
   const [ spendingWarning , setSpendingWarning] = useState('');
 
+
+  // FETCHING ALL THE TRANSACTIONS
   useEffect(() => {
     const storedTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
     setTransactions(storedTransactions);
   }, []);
 
+  // 
   useEffect(() => {
     localStorage.setItem('transactions', JSON.stringify(transactions));
   }, [transactions]);
 
   const addExpense = () => {
-    if (expense && amount) {
-      const newTransaction = { expense, amount: parseFloat(amount) , expenseType };
+    if (expense && amount && expenseType ) {
+      const newTransaction = { expense, amount: parseFloat(amount) , expenseType, category , date : moment().format('YYYY-MM-DD') };
       setTransactions([...transactions, newTransaction]);
       setExpense('');
       setAmount('');
       setExpenseType('');
+      setCategory('');
+    }else {
+      alert('Please Enter all fields');
     }
   };
 
@@ -68,7 +76,7 @@ export default function Expenses() {
     setTotalCredit(calculateCreditTotal);
     setTotalDebit(calculateDebitTotal);
 
-    if(totalCredit - totalDebit < 0){ 
+    if(totalCredit - totalDebit < 0 && calculateCreditTotal > 0){ 
       setSpendingWarning('You are over spending');
     }else{
       setSpendingWarning('')
@@ -77,7 +85,7 @@ export default function Expenses() {
   }, [transactions , totalCredit , totalDebit]);
 
   return (
-      <Box mt={3}>
+      <Box mt={2}>
         <Grid container>
           <Grid item sm={6}>
             <Box
@@ -88,7 +96,7 @@ export default function Expenses() {
             <TextField
               type='text'
               label="Name" 
-              margin='normal'
+              margin='dense'
               size='small'
               placeholder='Add Transaction'
               value={expense}
@@ -101,7 +109,7 @@ export default function Expenses() {
             <TextField
               type='number'
               label="Amount" 
-              margin='normal'
+              margin='dense'
               size='small'
               placeholder='Add Amount'
               value={amount}
@@ -110,7 +118,7 @@ export default function Expenses() {
             />
           </FormControl>
 
-          <FormControl fullWidth size='small' margin='normal'>
+          <FormControl fullWidth size='small' margin='dense'>
           <InputLabel id="demo-select-small-label">Select</InputLabel>
             <Select
               labelId="demo-select-small-label"
@@ -124,6 +132,25 @@ export default function Expenses() {
             </Select>
           </FormControl>
 
+          <FormControl fullWidth size='small' margin='dense'>
+          <InputLabel id="category">Category</InputLabel>
+            <Select
+              labelId="category"
+              value={category}
+              label="Category"
+              onChange={(e) => setCategory(e.target.value)}
+              required
+              disabled={expenseType === 'debit' ? false : true}
+            > 
+              <MenuItem value='housing' >Housing</MenuItem>
+              <MenuItem value='transportation' >Transportation</MenuItem>
+              <MenuItem value='food' >Food</MenuItem>
+              <MenuItem value='health' >Health</MenuItem>
+              <MenuItem value='entertainment' >Entertainment</MenuItem>
+              <MenuItem value='personal' >Personal</MenuItem>
+            </Select>
+          </FormControl>
+
           <FormControl fullWidth>
             <Button
               variant='contained'
@@ -134,33 +161,47 @@ export default function Expenses() {
               Add
             </Button>
           </FormControl>
-        </Box>
-            <Box
-              mt={4}
-              p={1}
-              mx={2}
-              sx={{ color : '#039be5' , borderRadius : '15px'}}
-              textAlign='center'
-            >
-              <Typography variant='body1'>Amount Credited: &#x20b9;{totalCredit}</Typography>
-              <Typography variant='body1'>Amount Debited: &#x20b9;{totalDebit}</Typography>
-              <Typography variant='body1'>
-                Balance: &#x20b9;{ totalCredit - totalDebit}
-              </Typography>
 
-              
-              
+        </Box>
+          <Box
+            mt={2}
+            p={1}
+            mx={1}
+            sx={{ 
+              borderRadius : '15px',
+              display : 'flex', flexWrap : 'wrap' , justifyContent : 'space-around'
+            }}
+          >
+
+            <Box width='33%' sx={{ p : 1 , backgroundColor : '#e8f5e9', borderRadius : '10px'}} >
+              <Typography variant='body2'>Credited</Typography>
+              <Typography variant='h6' color='#1b5e20'> &#x20b9;{totalCredit}</Typography>
             </Box>
+            <Box width='33%' sx={{ p : 1 ,  backgroundColor : '#ffebee', borderRadius : '10px'}}>
+              <Typography variant='body2'>Debited</Typography>
+              <Typography variant='h6' color='#b71c1c'>&#x20b9;{totalDebit}</Typography>
+            </Box>
+            <Box width='33%' sx={{ p : 1 ,  backgroundColor : '#e1f5fe', borderRadius : '10px'}}>
+              <Typography variant='body2'>Balance</Typography>
+              <Typography variant='h6'color='#01579b'> &#x20b9;{ totalCredit - totalDebit}</Typography>
+            </Box>
+            
+            
+          </Box>
 
 
           { spendingWarning && (
             <Box
-              mt={1}
-              p={1.5}
-              mx={2}
-              sx={{ color : '#039be5' , backgroundColor : '#ffcdd2', borderRadius : '15px'}}
+              mt={2}
+              p={0}
+              mx={1}
+              sx={{ color : '#212121' , backgroundColor : '#ffcdd2', borderRadius : '15px',
+                display: 'flex' , justifyContent : 'space-between'
+              }}
+
             >
-              <Typography variant='body1' color='red'>{spendingWarning}</Typography>  
+              <Typography variant='body1' sx={{ my : 1 , mx : 1}}>{spendingWarning}</Typography>
+              <IconButton onClick={() => setSpendingWarning('')}><CloseIcon /></IconButton> 
             </Box>
           )}
             
