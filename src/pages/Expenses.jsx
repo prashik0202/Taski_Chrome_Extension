@@ -10,6 +10,8 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import DeleteIcon from '@mui/icons-material/Delete'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import CloseIcon from '@mui/icons-material/Close';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Link } from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -164,7 +166,7 @@ export default function Expenses() {
 
         </Box>
           <Box
-            mt={2}
+            mt={1}
             p={1}
             mx={1}
             sx={{ 
@@ -190,9 +192,26 @@ export default function Expenses() {
           </Box>
 
 
+          <Box mt={0} mx={2} textAlign='center'>
+            {/* <Typography variant='body2' color='gray'>To get Analysis of your Expensses here below</Typography> */}
+            <FormControl fullWidth>
+              <Button
+                // variant='outlined'
+                size='small'
+                sx={{ borderRadius : 0 , mt : 1}}
+                color='success'
+                component={Link}
+                to='/expense_analysis'  
+                endIcon={<OpenInNewIcon />}
+              >
+                Analyze your expenses
+              </Button>
+            </FormControl>
+          </Box>
+
           { spendingWarning && (
             <Box
-              mt={2}
+              mt={1}
               p={0}
               mx={1}
               sx={{ color : '#212121' , backgroundColor : '#ffcdd2', borderRadius : '15px',
@@ -208,12 +227,12 @@ export default function Expenses() {
           </Grid>
           <Grid item sm={6}>
           <Box
-        mt={4}
-        mx={2}
-      >
-        <List sx={{ width : '100%' }}>
+            mt={4}
+            mx={2}
+          >
+          <List sx={{ width : '100%' }}>
 
-          {transactions.map((transaction, index) => (
+            {transactions.map((transaction, index) => (
               <ListItem
                 sx={{ my : 1 , 'borderRadius' : '10px'}}
                 className={ transaction.expenseType === 'credit'?  'credit_color' : 'debit_color' }
@@ -236,8 +255,9 @@ export default function Expenses() {
                 />
               </ListItem>
             ))}
-              </List>
-            </Box>
+          </List>
+          </Box>
+
           </Grid>
         </Grid>
       </Box>

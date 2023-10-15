@@ -149,33 +149,35 @@ function NewPass() {
         
         <FormControl fullWidth>
             <TextField
-                type="text"
-                placeholder="Website"
-                margin='dense'
-                size='small'
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
+              type="text"
+              placeholder="Website"
+              margin='dense'
+              size='small'
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              required
             />
             <OutlinedInput
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
-                endAdornment={
-                    <InputAdornment position="end">
-                        <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                        >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                    </InputAdornment>
-                }
-                size='small'
-                margin='dense'
-                value={password}
-                // helperText={strenght ? strenght : "" }
-                onChange={(e) => setPassword(e.target.value)}
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              endAdornment={
+                  <InputAdornment position="end">
+                      <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                      >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                  </InputAdornment>
+              }
+              size='small'
+              margin='dense'
+              value={password}
+              // helperText={strenght ? strenght : "" }
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
 
             <Typography 
@@ -188,7 +190,7 @@ function NewPass() {
               {strenght}
             </Typography>
 
-            <Button onClick={addPassword} sx={{ mt : 1}} variant='contained' size='small'>
+            <Button onClick={addPassword} sx={{ mt : 1 , borderRadius : 0}} variant='contained' size='small'>
             {editIndex !== -1 ? 'Update Password' : 'Add Password'}
             </Button>
 

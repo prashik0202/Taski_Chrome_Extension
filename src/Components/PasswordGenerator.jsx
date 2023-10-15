@@ -54,7 +54,14 @@ function PasswordGenerator() {
                 value={passwordLength}
                 onChange={(e) => setPasswordLength(e.target.value)}
             />
-            <Button onClick={handleGeneratePassword}  variant='contained' size='small' sx={{ mb : 1}}>Generate Password</Button>
+            <Button 
+              onClick={handleGeneratePassword}  
+              variant='contained' 
+              size='small' 
+              sx={{ mb : 1 , borderRadius : 0}}
+            >
+              Generate Password
+            </Button>
         </FormControl>
       </div>
       <Box mt={2}>

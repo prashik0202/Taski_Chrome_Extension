@@ -10,6 +10,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { FixedSizeList } from "react-window";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 
 export default function Task() {
@@ -156,13 +157,14 @@ export default function Task() {
             <Typography variant='body2' sx={{ color : 'grey'}}>To get detail analysis of your daily tasks, Please click the below Button</Typography>
             <FormControl fullWidth sx={{ mt : 1}}>
               <Button 
-                variant='contained' 
+                // variant='contained' 
                 size='small' 
                 color='success' 
                 sx={{ borderRadius : 0}}
                 // onClick={handleClick()}
                 component={Link}
                 to='/task_analysis'
+                endIcon={<OpenInNewIcon />}
               >
                 Click Here
               </Button>

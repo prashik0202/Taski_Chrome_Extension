@@ -2,6 +2,7 @@ import React from 'react'
 import { Box , Typography, Button  } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import NotVisible from '../Components/NotVisible';
 
 export default function TaskAnalysis() {
 
@@ -37,6 +38,12 @@ export default function TaskAnalysis() {
         priority,
         ...countCompletedAndRemaining(groupedData[priority]),
     }));
+
+    if(tasks.length === 0){
+        return(
+            <NotVisible />
+        );
+    }
 
     return (
         <Box mt={10}>
