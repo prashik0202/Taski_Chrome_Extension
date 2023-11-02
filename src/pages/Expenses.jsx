@@ -209,7 +209,9 @@ export default function Expenses() {
             </FormControl>
           </Box>
 
-          { spendingWarning && (
+          { 
+            
+            spendingWarning && (
             <Box
               mt={1}
               p={0}
@@ -232,8 +234,11 @@ export default function Expenses() {
           >
           <List sx={{ width : '100%' }}>
 
-            {transactions.map((transaction, index) => (
-              <ListItem
+            {transactions.map((transaction, index) => {
+
+              if(transaction.date === moment().format('YYYY-MM-DD')){
+                return(
+                  <ListItem
                 sx={{ my : 1 , 'borderRadius' : '10px'}}
                 className={ transaction.expenseType === 'credit'?  'credit_color' : 'debit_color' }
                 key={index}
@@ -254,7 +259,10 @@ export default function Expenses() {
                   secondary={`${transaction.amount}Rs`}
                 />
               </ListItem>
-            ))}
+                );
+              }
+              
+            })}
           </List>
           </Box>
 

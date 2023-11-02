@@ -1,15 +1,15 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { Typography , Box , TextField , FormControl, IconButton , Grid,FormLabel,FormGroup , FormControlLabel , Checkbox , Button, ListItemIcon , Select , MenuItem , InputLabel} from '@mui/material'
+
+// Mui Imports
+import { Typography , Box , TextField , FormControl, IconButton , Grid,FormLabel, Checkbox , Button, ListItemIcon , Select , MenuItem } from '@mui/material'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import DeleteIcon from '@mui/icons-material/Delete'
-import WorkIcon from '@mui/icons-material/Work';
+
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { FixedSizeList } from "react-window";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 
@@ -28,16 +28,6 @@ export default function Task() {
     // save tasks to localstorage whenever the task state changes:
     localStorage.setItem("tasks" , JSON.stringify(tasks) );
   }, [tasks])
-
-  // new tab button:
-  // function openNewTabWithData(data) {
-  //   const newTabUrl = chrome.extension.getURL(`newTab.html?data=${encodeURIComponent(data)}`);
-    
-  //   chrome.tabs.create({ url: newTabUrl });
-  // }
-  // function handleClick() {
-  //   openNewTabWithData(tasks);
-  // }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -90,6 +80,7 @@ export default function Task() {
   // Sort the data by priority
   const storedTasks = sortDataByPriority(tasks);
 
+  const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
 
   return (
     <Box mt={7}>
@@ -127,7 +118,9 @@ export default function Task() {
               size='small'
               type='date'
               name='date'
-              // label="Date" 
+              inputProps={{ 
+                min: today // Set the minimum date to today
+              }}
               value={task.date }
               onChange={handleInputChange}
               placeholder='Shedule on Selected Date'
@@ -154,7 +147,9 @@ export default function Task() {
           </FormControl>
 
           <Box mt={4} textAlign='center'>
-            <Typography variant='body2' sx={{ color : 'grey'}}>To get detail analysis of your daily tasks, Please click the below Button</Typography>
+            <Typography variant='body2' sx={{ color : 'grey'}}>
+              To get detail analysis of your daily tasks, Please click the below Button
+            </Typography>
             <FormControl fullWidth sx={{ mt : 1}}>
               <Button 
                 // variant='contained' 
