@@ -24,7 +24,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-function NewPass() {
+function Password() {
   const [ website, setWebsite ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ passwords, setPasswords ] = useState([]);
@@ -32,23 +32,23 @@ function NewPass() {
   const [ strenght , setStrength ] = useState('');
   const [ showPassword , setShowPassword ] = useState(true);
 
-    // show password functionlity:
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+  // show password functionlity:
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    const handleMouseDownPassword = (event) => {
-      event.preventDefault();
-    };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
-    //password strength checker:
-    const strengthChecker = (pass) => {
-    let strenghtValue = 0;
-    let regexList = ["[A-Z]" ,"[a-z]" , "[0-9]" , "\\W"];
-    let strenghtText = ["" , "weak" , "average" , "strong" , "very strong"  ];
+  //password strength checker:
+  const strengthChecker = (pass) => {
+  let strenghtValue = 0;
+  let regexList = ["[A-Z]" ,"[a-z]" , "[0-9]" , "\\W"];
+  let strenghtText = ["" , "weak" , "average" , "strong" , "very strong"  ];
 
-    regexList.forEach((regex) => {
-      if(new RegExp(regex).test(pass)){
-        strenghtValue += 1;
-      }
+  regexList.forEach((regex) => {
+    if(new RegExp(regex).test(pass)){
+      strenghtValue += 1;
+    }
       
     });
     if(pass.lenght >= 8){
@@ -58,24 +58,34 @@ function NewPass() {
     return strenghtText[strenghtValue];
   }
 
-    useEffect(() => {
-        setStrength(strengthChecker(password));
-    },[strenght,password])
+  useEffect(() => {
+      setStrength(strengthChecker(password));
+  },[strenght,password])
 
-    useEffect(() => {
-        // Load passwords from localStorage when the component mounts
-        const storedPasswords = JSON.parse(localStorage.getItem('passwords')) || [];
-        setPasswords(storedPasswords);
-    }, []);
+  useEffect(() => {
+      // Load passwords from localStorage when the component mounts
+      const storedPasswords = JSON.parse(localStorage.getItem('passwords')) || [];
+      setPasswords(storedPasswords);
+  }, []);
 
-    const addPassword = () => {
-
+  const addPassword = () => {
+  
+  if(website.length() == 0 ){
+    alert('Enter Website Name')
+    return
+  } else if(password.length() == 0){
+    alert('Enter Password')
+    return
+  } else {
     // before adding the password we check the strenght of password:
     const strenght = strengthChecker(password);
     if(strenght === ''||  strenght === 'weak' || strenght === 'average'){
         return alert("Please provide strong password")
     }
 
+    if(website === '' ){
+      return alert('Enter all fields')
+    }
     // Encrypt the password before storing it
     const encryptedPassword = CryptoJS.AES.encrypt(password, 'encryptionKey').toString();
 
@@ -102,6 +112,8 @@ function NewPass() {
     // Clear the input fields
     setWebsite('');
     setPassword('');
+  }
+  
 
   };
 
@@ -149,15 +161,16 @@ function NewPass() {
         
         <FormControl fullWidth>
             <TextField
+              required
               type="text"
               placeholder="Website"
               margin='dense'
               size='small'
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
-              required
             />
             <OutlinedInput
+              required
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               endAdornment={
@@ -177,7 +190,6 @@ function NewPass() {
               value={password}
               // helperText={strenght ? strenght : "" }
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
 
             <Typography 
@@ -254,4 +266,4 @@ function NewPass() {
   );
 }
 
-export default NewPass;
+export default Password;
