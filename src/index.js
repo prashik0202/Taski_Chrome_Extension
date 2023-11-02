@@ -4,11 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { HashRouter } from 'react-router-dom';
+
 import { createTheme, ThemeProvider } from '@mui/material';
 const theme = createTheme({
   palette : {
     mode : 'light',
-    
   }
 })
 const root = ReactDOM.createRoot(document.getElementById('root'));
